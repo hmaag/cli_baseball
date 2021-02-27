@@ -2,6 +2,7 @@
 # r = requests.get('https://scrambled-api.mysportsfeeds.com/v2.1/pull/mlb/2021-regular/games/20210627-SEA-CWS/boxscore.json', auth=('8e039d46-b4d6-44f2-b3b9-b9ba42', 'MYSPORTSFEEDS'))
 # print(r.json())
 import json
+from blessed import Terminal
 
 def get_boxscore() -> tuple:
     with open('ex_boxscore.json') as f:
@@ -22,6 +23,12 @@ def get_boxscore() -> tuple:
 
 
 if __name__ == '__main__':
+    term = Terminal()
+    print(term.home + term.clear + term.move_y(term.height // 2))
+    print(term.black_on_darkkhaki(term.center('press any key to continue.')))
+    with term.cbreak(), term.hidden_cursor():
+        inp = term.inkey()
+    term.move_down(2)
     boxscore = get_boxscore()
     print('{:2s} {:2s} {:2s}'.format('R', 'H', 'E'))
     print(boxscore[0])
